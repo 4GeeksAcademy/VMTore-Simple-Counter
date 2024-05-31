@@ -1,13 +1,40 @@
 .bigSquare {
   text-align: center;
-  background: black;
+  background: rgba(0, 0, 0, 0);
+  margin-top: 30px;
 }
 .bigSquare div {
   display: inline-block;
   font-size: 80px;
   line-height: 80px;
   margin: 5px;
-  background: #332f2f6e;
+  background: #3b0b49dc;
   color: white;
   padding: 10px;
+  border-radius: 5%;
+  border: solid;
+  border-color: rgba(0, 0, 0, 0.644);
+}
+
+body {
+  background-image: url(https://images4.alphacoders.com/134/1347180.png);
+  background-size: cover;
+}
+#controls {
+  border-radius: 8%;
+  color: rgb(255, 255, 255);
+  text-align: start;
+  display: inline;
+  margin-top: 20px;
+  margin: 4px 2px;
+  background-color: #3b0b49dc;
+  font-size: 22px;
+}
+
+#div-controls {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  height: 200px;
 }

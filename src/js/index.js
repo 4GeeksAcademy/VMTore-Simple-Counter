@@ -1,60 +1,70 @@
 //import react into the bundle
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import PropTypes from "prop-types";
+
+import SimpleCounter from "./component/home";
 // include your styles into the webpack bundle
 import "../styles/index.css";
 
 //import your own components
-function SimpleCounter(props) {
+
+function CounterApp() {
+  const [counter, setCounter] = useState(0);
+  const [isRunning, setIsRunning] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (isRunning) {
+        setCounter((prevCounter) => prevCounter + 1);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isRunning]);
+
+  const handlePause = () => setIsRunning(false);
+  const handleResume = () => setIsRunning(true);
+  const handleReset = () => {
+    setCounter(0);
+    setIsRunning(false);
+  };
+
+  const totalSeconds = counter;
+  const hours = Math.floor(totalSeconds / 3600);
+  const remainingSeconds = totalSeconds % 3600;
+  const minutes = Math.floor(remainingSeconds / 60);
+  const seconds = remainingSeconds % 60;
+
+  const tHours = Math.floor(hours / 10);
+  const uHours = hours % 10;
+  const tMinutes = Math.floor(minutes / 10);
+  const uMinutes = minutes % 10;
+  const tSeconds = Math.floor(seconds / 10);
+  const uSeconds = seconds % 10;
+
   return (
-    <div className="bigSquare">
-      <div className="clokImg">
-        <i class="fa-regular fa-clock"></i>
+    <div>
+      <SimpleCounter
+        tensHour={tHours}
+        unitsHour={uHours}
+        tensMinutes={tMinutes}
+        unitsMinutes={uMinutes}
+        tensSeconds={tSeconds}
+        unitsSeconds={uSeconds}
+      />
+      <div className="div-controls" id="div-controls">
+        <button id="controls" onClick={handlePause}>
+          Pause
+        </button>
+        <button id="controls" onClick={handleResume}>
+          Start
+        </button>
+        <button id="controls" onClick={handleReset}>
+          Reset
+        </button>
       </div>
-      <div className="hoursTwo">{props.tensHour % 10}</div>
-      <div className="hoursOne">{props.unitsHour}</div>
-      <div>
-        <i class="fa-regular fa-colon"></i>
-      </div>
-      <div className="minutesTwo">{props.tensMinutes % 10}</div>
-      <div className="minutesOne">{props.unitsMinutes % 10}</div>
-      <div>
-        <i class="fa-solid fa-colon"></i>
-      </div>
-      <div className="secondsTwo">{props.tensSeconds % 10}</div>
-      <div className="secondsOne">{props.unitsSeconds % 10}</div>
     </div>
   );
 }
-SimpleCounter.propTypes = {
-  tensHour: PropTypes.number,
-  unitsHour: PropTypes.number,
-  tensMinutes: PropTypes.number,
-  unitsMinutes: PropTypes.number,
-  tensSeconds: PropTypes.number,
-  unitsSeconds: PropTypes.number,
-};
 
-let counter = 0;
-setInterval(function () {
-  const tHours = Math.floor(counter / 100000);
-  const uHours = Math.floor(counter / 10000);
-  const tMinutes = Math.floor(counter / 1000);
-  const uMinutes = Math.floor(counter / 100);
-  const tSeconds = Math.floor(counter / 10);
-  const uSeconds = Math.floor(counter / 1);
-  counter++;
-
-  ReactDOM.render(
-    <SimpleCounter
-      tensHour={tHours}
-      unitsHour={uHours}
-      tensMinutes={tMinutes}
-      unitsMinutes={uMinutes}
-      tensSeconds={tSeconds}
-      unitsSeconds={uSeconds}
-    />,
-    document.querySelector("#app")
-  );
-}, 1000);
+ReactDOM.render(<CounterApp />, document.querySelector("#app"));

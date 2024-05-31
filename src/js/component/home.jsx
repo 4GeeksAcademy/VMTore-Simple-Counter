@@ -1,21 +1,30 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-const Home = () => {
+function SimpleCounter(props) {
   return (
-    <div className="text-center">
-      <h1 className="text-center mt-5">Hello Rigo!</h1>
-      <p>
-        <img src={rigoImage} />
-      </p>
-      <a href="#" className="btn btn-success">
-        If you see this green button... bootstrap is working...
-      </a>
-      <p>
-        Made by <a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-        love!
-      </p>
+    <div className="bigSquare">
+      <div className="clokImg">
+        <i className="fa-regular fa-clock"></i>
+      </div>
+      <div className="hoursTwo">{props.tensHour % 10}</div>
+      <div className="hoursOne">{props.unitsHour}</div>
+      <div>:</div>
+      <div className="minutesTwo">{props.tensMinutes % 10}</div>
+      <div className="minutesOne">{props.unitsMinutes % 10}</div>
+      <div>:</div>
+      <div className="secondsTwo">{props.tensSeconds % 10}</div>
+      <div className="secondsOne">{props.unitsSeconds % 10}</div>
     </div>
   );
+}
+SimpleCounter.propTypes = {
+  tensHour: PropTypes.number,
+  unitsHour: PropTypes.number,
+  tensMinutes: PropTypes.number,
+  unitsMinutes: PropTypes.number,
+  tensSeconds: PropTypes.number,
+  unitsSeconds: PropTypes.number,
 };
 
-export default Home;
+export default SimpleCounter;
